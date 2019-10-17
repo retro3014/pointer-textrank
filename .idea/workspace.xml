@@ -2,18 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a07d8041-cd2c-4fcd-ba94-94e291474e03" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/data_util/textrank.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_util/batcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_util/batcher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training_ptr_gen/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/training_ptr_gen/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training_ptr_gen/model_transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/training_ptr_gen/model_transformer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/training_ptr_gen/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/training_ptr_gen/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training_ptr_gen/train_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/training_ptr_gen/train_util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,50 +43,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.model_transformer">
-    <configuration name="batcher" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="pointer_summarizer-master" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data_util" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data_util/batcher.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="config" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="pointer_summarizer-master" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data_util" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data_util/config.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.textrank">
     <configuration name="data" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pointer_summarizer-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -104,7 +65,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="model" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="decode" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pointer_summarizer-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -116,7 +77,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training_ptr_gen/model.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training_ptr_gen/decode.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -146,20 +107,62 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="textrank" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pointer_summarizer-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data_util" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data_util/textrank.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pointer_summarizer-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/training_ptr_gen" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training_ptr_gen/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Python.batcher" />
       <item itemvalue="Python.data" />
-      <item itemvalue="Python.config" />
-      <item itemvalue="Python.model" />
       <item itemvalue="Python.model_transformer" />
+      <item itemvalue="Python.decode" />
+      <item itemvalue="Python.train" />
+      <item itemvalue="Python.textrank" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.textrank" />
+        <item itemvalue="Python.train" />
+        <item itemvalue="Python.decode" />
         <item itemvalue="Python.model_transformer" />
         <item itemvalue="Python.data" />
-        <item itemvalue="Python.model" />
-        <item itemvalue="Python.batcher" />
-        <item itemvalue="Python.config" />
       </list>
     </recent_temporary>
   </component>
