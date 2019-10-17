@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a07d8041-cd2c-4fcd-ba94-94e291474e03" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data_util/textrank.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_util/textrank.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_util/textrank.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/training_ptr_gen/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/training_ptr_gen/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,7 +43,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.textrank">
+  <component name="RunManager" selected="Python.train">
     <configuration name="data" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pointer_summarizer-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -158,8 +158,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.textrank" />
         <item itemvalue="Python.train" />
+        <item itemvalue="Python.textrank" />
         <item itemvalue="Python.decode" />
         <item itemvalue="Python.model_transformer" />
         <item itemvalue="Python.data" />

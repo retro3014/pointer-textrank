@@ -3,7 +3,7 @@ from __future__ import unicode_literals, print_function, division
 import os
 import time
 import argparse
-from data_util import textrank
+#test
 import tensorflow as tf
 import torch
 from model import Model
