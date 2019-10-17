@@ -7,11 +7,11 @@ import sys
 import tensorflow as tf
 import torch
 
-from training_ptr_gen import config
-from training_ptr_gen.batcher import Batcher
-from training_ptr_gen.data import Vocab
+import config
+from batcher import Batcher
+from data import Vocab
 
-from training_ptr_gen.utils import calc_running_avg_loss
+from utils import calc_running_avg_loss
 from train_util import get_input_from_batch, get_output_from_batch
 from model import Model
 

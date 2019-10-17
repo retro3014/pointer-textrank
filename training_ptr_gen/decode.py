@@ -13,11 +13,11 @@ import time
 import torch
 from torch.autograd import Variable
 
-from training_ptr_gen.batcher import Batcher
-from training_ptr_gen.data import Vocab
-from training_ptr_gen import data, config
+from batcher import Batcher
+from data import Vocab
+import data, config
 from model import Model
-from training_ptr_gen.utils import write_for_rouge, rouge_eval, rouge_log
+from utils import write_for_rouge, rouge_eval, rouge_log
 from train_util import get_input_from_batch
 
 use_cuda = config.use_gpu and torch.cuda.is_available()
