@@ -1,7 +1,7 @@
 from torch.autograd import Variable
 import numpy as np
 import torch
-from data_util import config
+from training_ptr_gen import config
 
 
 def get_input_from_batch(batch, use_cuda):

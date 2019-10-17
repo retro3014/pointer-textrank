@@ -8,8 +8,7 @@ from threading import Thread
 import numpy as np
 import tensorflow as tf
 
-from . import config
-from . import data
+from training_ptr_gen import data, config
 
 import random
 
