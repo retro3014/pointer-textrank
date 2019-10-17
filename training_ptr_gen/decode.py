@@ -5,7 +5,7 @@ from __future__ import unicode_literals, print_function, division
 import sys
 
 reload(sys)
-sys.setdpip efaultencoding('utf8')
+sys.setdefaultencoding('utf8')
 
 import os
 import time
