@@ -3,12 +3,11 @@ from __future__ import unicode_literals, print_function, division
 import os
 import time
 import argparse
-#test
 import tensorflow as tf
+
 import torch
 from model import Model
 from torch.nn.utils import clip_grad_norm_
-
 from torch.optim import Adagrad
 
 # from training_ptr_gen import config
@@ -130,10 +129,10 @@ class Train(object):
     def trainIters(self, n_iters, model_file_path=None):
         iter, running_avg_loss = self.setup_train(model_file_path)
         start = time.time()
+
         while iter < n_iters:
             batch = self.batcher.next_batch()
             loss = self.train_one_batch(batch)
-
             running_avg_loss = calc_running_avg_loss(loss, running_avg_loss, self.summary_writer, iter)
             iter += 1
 

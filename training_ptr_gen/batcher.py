@@ -8,7 +8,7 @@ from threading import Thread
 import numpy as np
 import tensorflow as tf
 
-import data, config
+import data, config, textrank
 
 import random
 
@@ -23,12 +23,17 @@ class Example(object):
         stop_decoding = vocab.word2id(data.STOP_DECODING)
 
         # Process the article
+        article = article.decode('utf-8')
         article_words = article.split()
         if len(article_words) > config.max_enc_steps:
             article_words = article_words[:config.max_enc_steps]
         self.enc_len = len(article_words)  # store the length after truncation but before padding
         self.enc_input = [vocab.word2id(w) for w in
                           article_words]  # list of word ids; OOVs are represented by the id for UNK token
+
+        twk = textrank.TextRankKeyword()
+        twk.analyze(article, window_size=4, lower=False)
+        word_rank=twk.makewordrank()
 
         # Process the abstract
         abstract = ' '.join(abstract_sentences)  # string
@@ -219,7 +224,6 @@ class Batcher(object):
                     break
                 else:
                     raise Exception("single_pass mode is off but the example generator is out of data; error.")
-
             abstract_sentences = [sent.strip() for sent in data.abstract2sents(
                 abstract.decode('utf-8'))]  # Use the <s> and </s> tags in abstract to get a list of sentences.
             example = Example(article, abstract_sentences, self._vocab)  # Process into an Example.
