@@ -272,7 +272,7 @@ class Batcher(object):
 
     def text_generator(self, example_generator):
         while True:
-            e = example_generator.next()  # e is a tf.Example
+            e = next(example_generator)  # e is a tf.Example
             try:
                 article_text = e.features.feature['article'].bytes_list.value[
                     0]  # the article text was saved under the key 'article' in the data files
