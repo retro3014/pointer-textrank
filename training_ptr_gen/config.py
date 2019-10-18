@@ -7,7 +7,7 @@ train_data_path = os.path.join(root_dir, "/experiments/gshs_rne/36a/finished_fil
 eval_data_path = os.path.join(root_dir, "/experiments/gshs_rne/36a/finished_files/chunked/val_*")
 decode_data_path = os.path.join(root_dir, "/experiments/gshs_rne/36a/finished_files/test.bin")
 vocab_path = os.path.join(root_dir, "/experiments/gshs_rne/36a/finished_files/vocab")
-log_root = os.path.join(root_dir, "ptr_nw/log")
+log_root = os.path.join(root_dir, "/experiments/gshs_rne/36b/pointer_textrank/log")
 
 # Hyperparameters
 hidden_dim = 256
