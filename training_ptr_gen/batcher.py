@@ -33,7 +33,7 @@ class Example(object):
 
         twk = textrank.TextRankKeyword()
         twk.analyze(article, window_size=4, lower=False)
-        word_rank=twk.makewordrank()
+        self.word_rank=twk.makewordrank()
 
         # Process the abstract
         abstract = ' '.join(abstract_sentences)  # string
