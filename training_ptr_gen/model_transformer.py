@@ -1,4 +1,4 @@
-#This is still a work in progress I will work on it once I get some free time.
+# This is still a work in progress I will work on it once I get some free time.
 
 from __future__ import unicode_literals, print_function, division
 
@@ -9,6 +9,7 @@ import logging
 import math
 
 logging.basicConfig(level=logging.INFO)
+
 
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model, dropout, max_len=5000):
@@ -28,11 +29,12 @@ class PositionalEncoding(nn.Module):
         x = x + self.pe[:, :x.size(1)]
         return self.dropout(x)
 
+
 class MultiHeadedAttention(nn.Module):
     def __init__(self, num_head, d_model, dropout=0.1):
         super(MultiHeadedAttention, self).__init__()
         assert d_model % num_head == 0
-        self.d_k = d_model // num_head  #d_k == d_v
+        self.d_k = d_model // num_head  # d_k == d_v
         self.h = num_head
 
         self.linear_key = nn.Linear(d_model, d_model)
@@ -63,6 +65,7 @@ class MultiHeadedAttention(nn.Module):
         x = x.transpose(1, 2).contiguous().view(nbatches, -1, self.h * self.d_k)
         return self.linear_out(x)
 
+
 class AffineLayer(nn.Module):
     def __init__(self, dropout, d_model, d_ff):
         super(AffineLayer, self).__init__()
@@ -72,6 +75,7 @@ class AffineLayer(nn.Module):
 
     def forward(self, x):
         return self.w_2(self.dropout(F.relu(self.w_1(x))))
+
 
 class EncoderLayer(nn.Module):
     def __init__(self, num_head, dropout, d_model, d_ff):
@@ -86,13 +90,14 @@ class EncoderLayer(nn.Module):
         self.dropout_affine = nn.Dropout(dropout)
 
     def forward(self, x, mask):
-        x_att = self.norm_att(x*mask)
-        x_att = self.att_layer(x_att, x_att, x_att, mask)
+        x_att = self.norm_att(x * mask)
+        x_att = self.att_layer
         x = x + self.dropout_att(x_att)
 
-        x_affine = self.norm_affine(x*mask)
-        x_affine = self.affine_layer(x_affine)
+        x_affine = self.norm_affine(x * mask)
+        x_affine = self.affine_layer
         return x + self.dropout_affine(x_affine)
+
 
 class Encoder(nn.Module):
     def __init__(self, N, num_head, dropout, d_model, d_ff):
@@ -104,7 +109,7 @@ class Encoder(nn.Module):
         self.norm = nn.LayerNorm(d_model)
 
     def forward(self, word_embed, mask):
-        x = self.position(word_embed)
+        x = self.position
         for layer in self.layers:
             x = layer(x, mask)
-        return self.norm(x*mask)
+        return self.norm(x * mask)
