@@ -209,7 +209,7 @@ class Batcher(object):
         while True:
             try:
                 (article,
-                 abstract) = input_gen.next()  # read the next example from file. article and abstract are both strings.
+                 abstract) = next(input_gen)  # read the next example from file. article and abstract are both strings.
             except StopIteration:  # if there are no more examples:
                 tf.logging.info("The example generator for this example queue filling thread has exhausted data.")
                 if self._single_pass:
