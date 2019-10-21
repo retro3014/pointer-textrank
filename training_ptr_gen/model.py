@@ -150,7 +150,7 @@ class Attention(nn.Module):
         scores = self.v(e)  # B * t_k x 1
         scores = scores.view(-1, t_k)  # B x t_k
 
-        print(scores)
+        scores = torch.add(scores, wr_attention)
         attn_dist_ = F.softmax(scores, dim=1) * enc_padding_mask  # B x t_k
         normalization_factor = attn_dist_.sum(1, keepdim=True)
         attn_dist = attn_dist_ / normalization_factor
