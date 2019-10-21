@@ -35,6 +35,9 @@ class Example(object):
         twk.analyze(article, window_size=4, lower=False)
         self.word_rank=twk.makewordrank()
 
+        self.word_rank_data = [self.word_rank[w] for w in article_words]
+
+
         # Process the abstract
         abstract = ' '.join(abstract_sentences)  # string
         abstract_words = abstract.split()  # list of strings
@@ -87,6 +90,10 @@ class Example(object):
             while len(self.enc_input_extend_vocab) < max_len:
                 self.enc_input_extend_vocab.append(pad_id)
 
+    def pad_encoder_attention(self, max_len):
+        while len(self.word_rank_data) < max_len:
+            self.word_rank_data.append(0)
+
 
 class Batch(object):
     def __init__(self, example_list, vocab, batch_size):
@@ -104,16 +111,21 @@ class Batch(object):
         for ex in example_list:
             ex.pad_encoder_input(max_enc_seq_len, self.pad_id)
 
+        for ex in example_list:
+            ex.pad_encoder_attention(max_enc_seq_len)
+
         # Initialize the numpy arrays
         # Note: our enc_batch can have different length (second dimension) for each batch because we use dynamic_rnn for the encoder.
         self.enc_batch = np.zeros((self.batch_size, max_enc_seq_len), dtype=np.int32)
         self.enc_lens = np.zeros((self.batch_size), dtype=np.int32)
         self.enc_padding_mask = np.zeros((self.batch_size, max_enc_seq_len), dtype=np.float32)
+        self.wr_attention = np.zeros((self.batch_size, max_enc_seq_len), dtype=np.int32)
 
         # Fill in the numpy arrays
         for i, ex in enumerate(example_list):
             self.enc_batch[i, :] = ex.enc_input[:]
             self.enc_lens[i] = ex.enc_len
+            self.wr_attention[i, :] = ex.word_rank_data[:]
             for j in range(ex.enc_len):
                 self.enc_padding_mask[i][j] = 1
 

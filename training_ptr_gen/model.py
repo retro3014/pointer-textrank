@@ -48,16 +48,16 @@ class PositionalEncoding(nn.Module):
     def __init__(self, d_model, len, dropout=None):
         super(PositionalEncoding, self).__init__()
         self.len = len
-        if dropout is not None :
+        if dropout is not None:
             self.dropout = nn.Dropout(p=dropout)
-        else :
+        else:
             self.dropout = None
-        pe = torch.zeros(self.len, d_model) # len x D
-        position = torch.arange(0, self.len).float().unsqueeze(1) # len x 1
-        div_term = torch.exp(torch.arange(0, d_model, 2).float() * ( -(math.log(10000.0) / d_model)) ) # D/2
+        pe = torch.zeros(self.len, d_model)  # len x D
+        position = torch.arange(0, self.len).float().unsqueeze(1)  # len x 1
+        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-(math.log(10000.0) / d_model)))  # D/2
         pe[:, 0::2] = torch.sin(position * div_term)
         pe[:, 1::2] = torch.cos(position * div_term)
-        pe = pe.unsqueeze(0) # 1 x len x D
+        pe = pe.unsqueeze(0)  # 1 x len x D
         self.register_buffer('pe', pe)
 
     def forward(self):
@@ -65,6 +65,7 @@ class PositionalEncoding(nn.Module):
             return self.dropout(self.pe[:, :self.len])
         else:
             return self.pe[:, :self.len]
+
 
 class Encoder(nn.Module):
     def __init__(self):
@@ -132,7 +133,7 @@ class Attention(nn.Module):
         self.decode_proj = nn.Linear(config.hidden_dim * 2, config.hidden_dim * 2)
         self.v = nn.Linear(config.hidden_dim * 2, 1, bias=False)
 
-    def forward(self, s_t_hat, encoder_outputs, encoder_feature, enc_padding_mask, coverage, dec_word_rank):
+    def forward(self, s_t_hat, encoder_outputs, encoder_feature, enc_padding_mask, coverage, wr_attention):
         b, t_k, n = list(encoder_outputs.size())
 
         dec_fea = self.decode_proj(s_t_hat)  # B x 2*hidden_dim
@@ -149,6 +150,7 @@ class Attention(nn.Module):
         scores = self.v(e)  # B * t_k x 1
         scores = scores.view(-1, t_k)  # B x t_k
 
+        print(scores)
         attn_dist_ = F.softmax(scores, dim=1) * enc_padding_mask  # B x t_k
         normalization_factor = attn_dist_.sum(1, keepdim=True)
         attn_dist = attn_dist_ / normalization_factor
@@ -188,7 +190,7 @@ class Decoder(nn.Module):
         init_linear_wt(self.out2)
 
     def forward(self, y_t_1, s_t_1, encoder_outputs, encoder_feature, enc_padding_mask,
-                c_t_1, extra_zeros, enc_batch_extend_vocab, coverage, step, dec_word_rank):
+                c_t_1, extra_zeros, enc_batch_extend_vocab, coverage, step, wr_attention):
 
         if not self.training and step == 0:
             h_decoder, c_decoder = s_t_1
@@ -204,7 +206,8 @@ class Decoder(nn.Module):
         h_decoder, c_decoder = s_t
         s_t_hat = torch.cat((h_decoder.view(-1, config.hidden_dim),
                              c_decoder.view(-1, config.hidden_dim)), 1)  # B x 2*hidden_dim
-        c_t, attn_dist, coverage_next = self.attention_network(s_t_hat, encoder_outputs, encoder_feature, enc_padding_mask, coverage, dec_word_rank)
+        c_t, attn_dist, coverage_next = self.attention_network(s_t_hat, encoder_outputs, encoder_feature,
+                                                               enc_padding_mask, coverage, wr_attention)
 
         if self.training or step > 0:
             coverage = coverage_next

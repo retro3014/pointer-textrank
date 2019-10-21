@@ -80,9 +80,9 @@ class Train(object):
         return start_iter, start_loss
 
     def train_one_batch(self, batch):
-        enc_batch, enc_padding_mask, enc_lens, enc_batch_extend_vocab, extra_zeros, c_t_1, coverage = \
+        enc_batch, enc_padding_mask, enc_lens, enc_batch_extend_vocab, extra_zeros, c_t_1, coverage, wr_attention = \
             get_input_from_batch(batch, use_cuda)
-        dec_batch, dec_padding_mask, max_dec_len, dec_lens_var, target_batch, dec_word_rank = \
+        dec_batch, dec_padding_mask, max_dec_len, dec_lens_var, target_batch = \
             get_output_from_batch(batch, use_cuda)
 
         self.optimizer.zero_grad()
@@ -99,7 +99,7 @@ class Train(object):
                                                                                            enc_padding_mask, c_t_1,
                                                                                            extra_zeros,
                                                                                            enc_batch_extend_vocab,
-                                                                                           coverage, di, dec_word_rank)
+                                                                                           coverage, di, wr_attention)
             target = target_batch[:, di]
             gold_probs = torch.gather(final_dist, 1, target.unsqueeze(1)).squeeze()
             step_loss = -torch.log(gold_probs + config.eps)
