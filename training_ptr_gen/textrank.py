@@ -80,7 +80,7 @@ class TextRankKeyword():
 
         return g_norm
 
-    def makewordrank(self):
+    def makeword_rank(self):
         """Print top number keywords"""
         node_weight = OrderedDict(sorted(self.node_weight.items(), key=lambda t: t[1], reverse=True))
         return node_weight
