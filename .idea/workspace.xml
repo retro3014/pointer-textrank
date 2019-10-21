@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a07d8041-cd2c-4fcd-ba94-94e291474e03" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training_ptr_gen/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/training_ptr_gen/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training_ptr_gen/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/training_ptr_gen/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training_ptr_gen/train_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/training_ptr_gen/train_util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +27,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -49,7 +46,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.train">
+  <component name="RunManager" selected="Python.textrank (1)">
     <configuration name="decode" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pointer_summarizer-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -92,7 +89,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="model_transformer" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="textrank (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pointer_summarizer-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -104,7 +101,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training_ptr_gen/model_transformer.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training_ptr_gen/textrank.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -156,19 +153,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.model_transformer" />
       <item itemvalue="Python.decode" />
       <item itemvalue="Python.train" />
       <item itemvalue="Python.textrank" />
       <item itemvalue="Python.model" />
+      <item itemvalue="Python.textrank (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.textrank (1)" />
         <item itemvalue="Python.train" />
         <item itemvalue="Python.model" />
         <item itemvalue="Python.textrank" />
         <item itemvalue="Python.decode" />
-        <item itemvalue="Python.model_transformer" />
       </list>
     </recent_temporary>
   </component>
