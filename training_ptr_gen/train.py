@@ -3,12 +3,11 @@ from __future__ import unicode_literals, print_function, division
 import os
 import time
 import argparse
-#test
 import tensorflow as tf
+
 import torch
 from model import Model
 from torch.nn.utils import clip_grad_norm_
-
 from torch.optim import Adagrad
 
 # from training_ptr_gen import config
@@ -81,7 +80,7 @@ class Train(object):
         return start_iter, start_loss
 
     def train_one_batch(self, batch):
-        enc_batch, enc_padding_mask, enc_lens, enc_batch_extend_vocab, extra_zeros, c_t_1, coverage = \
+        enc_batch, enc_padding_mask, enc_lens, enc_batch_extend_vocab, extra_zeros, c_t_1, coverage, wr_attention = \
             get_input_from_batch(batch, use_cuda)
         dec_batch, dec_padding_mask, max_dec_len, dec_lens_var, target_batch = \
             get_output_from_batch(batch, use_cuda)
@@ -100,7 +99,7 @@ class Train(object):
                                                                                            enc_padding_mask, c_t_1,
                                                                                            extra_zeros,
                                                                                            enc_batch_extend_vocab,
-                                                                                           coverage, di)
+                                                                                           coverage, di, wr_attention)
             target = target_batch[:, di]
             gold_probs = torch.gather(final_dist, 1, target.unsqueeze(1)).squeeze()
             step_loss = -torch.log(gold_probs + config.eps)
@@ -130,10 +129,10 @@ class Train(object):
     def trainIters(self, n_iters, model_file_path=None):
         iter, running_avg_loss = self.setup_train(model_file_path)
         start = time.time()
+
         while iter < n_iters:
             batch = self.batcher.next_batch()
             loss = self.train_one_batch(batch)
-
             running_avg_loss = calc_running_avg_loss(loss, running_avg_loss, self.summary_writer, iter)
             iter += 1
 

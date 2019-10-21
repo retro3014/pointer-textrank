@@ -8,7 +8,7 @@ from threading import Thread
 import numpy as np
 import tensorflow as tf
 
-import data, config
+import data, config, textrank
 
 import random
 
@@ -23,12 +23,20 @@ class Example(object):
         stop_decoding = vocab.word2id(data.STOP_DECODING)
 
         # Process the article
+        article = article.decode('utf-8')
         article_words = article.split()
         if len(article_words) > config.max_enc_steps:
             article_words = article_words[:config.max_enc_steps]
         self.enc_len = len(article_words)  # store the length after truncation but before padding
         self.enc_input = [vocab.word2id(w) for w in
                           article_words]  # list of word ids; OOVs are represented by the id for UNK token
+
+        twk = textrank.TextRankKeyword()
+        twk.analyze(article, window_size=4, lower=False)
+        self.word_rank=twk.makewordrank()
+
+        self.word_rank_data = [self.word_rank[w] for w in article_words]
+
 
         # Process the abstract
         abstract = ' '.join(abstract_sentences)  # string
@@ -82,6 +90,10 @@ class Example(object):
             while len(self.enc_input_extend_vocab) < max_len:
                 self.enc_input_extend_vocab.append(pad_id)
 
+    def pad_encoder_attention(self, max_len):
+        while len(self.word_rank_data) < max_len:
+            self.word_rank_data.append(0)
+
 
 class Batch(object):
     def __init__(self, example_list, vocab, batch_size):
@@ -99,16 +111,21 @@ class Batch(object):
         for ex in example_list:
             ex.pad_encoder_input(max_enc_seq_len, self.pad_id)
 
+        for ex in example_list:
+            ex.pad_encoder_attention(max_enc_seq_len)
+
         # Initialize the numpy arrays
         # Note: our enc_batch can have different length (second dimension) for each batch because we use dynamic_rnn for the encoder.
         self.enc_batch = np.zeros((self.batch_size, max_enc_seq_len), dtype=np.int32)
         self.enc_lens = np.zeros((self.batch_size), dtype=np.int32)
         self.enc_padding_mask = np.zeros((self.batch_size, max_enc_seq_len), dtype=np.float32)
+        self.wr_attention = np.zeros((self.batch_size, max_enc_seq_len), dtype=np.int32)
 
         # Fill in the numpy arrays
         for i, ex in enumerate(example_list):
             self.enc_batch[i, :] = ex.enc_input[:]
             self.enc_lens[i] = ex.enc_len
+            self.wr_attention[i, :] = ex.word_rank_data[:]
             for j in range(ex.enc_len):
                 self.enc_padding_mask[i][j] = 1
 
@@ -219,7 +236,6 @@ class Batcher(object):
                     break
                 else:
                     raise Exception("single_pass mode is off but the example generator is out of data; error.")
-
             abstract_sentences = [sent.strip() for sent in data.abstract2sents(
                 abstract.decode('utf-8'))]  # Use the <s> and </s> tags in abstract to get a list of sentences.
             example = Example(article, abstract_sentences, self._vocab)  # Process into an Example.
