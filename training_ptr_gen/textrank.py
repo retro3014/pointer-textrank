@@ -21,29 +21,14 @@ class TextRankKeyword():
             lexeme = nlp.vocab[word]
             lexeme.is_stop = True
 
-    def sentence_segment(self, doc, lower):
-        """Store those words only in cadidate_pos"""
-        sentences = []
-        for sent in doc.sents:
-            selected_words = []
-            for token in sent:
-                # Store words only with cadidate POS tag
-                if lower is True:
-                    selected_words.append(token.text.lower())
-                else:
-                    selected_words.append(token.text)
-            sentences.append(selected_words)
-        return sentences
-
-    def get_vocab(self, sentences):
+    def get_vocab(self, sentence):
         """Get all tokens"""
         vocab = OrderedDict()
         i = 0
-        for sentence in sentences:
-            for word in sentence:
-                if word not in vocab:
-                    vocab[word] = i
-                    i += 1
+        for word in sentence:
+            if word not in vocab:
+                vocab[word] = i
+                i += 1
         return vocab
 
     def get_token_pairs(self, window_size, sentence):
