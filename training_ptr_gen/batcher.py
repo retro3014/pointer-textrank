@@ -35,8 +35,6 @@ class Example(object):
         twk.analyze(article, window_size=4, lower=False)
         self.word_rank=twk.makeword_rank()
 
-        for w in article_words:
-            print(w)
 
         self.word_rank_data = [self.word_rank[w] for w in article_words]
 

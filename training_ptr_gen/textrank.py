@@ -125,9 +125,3 @@ class TextRankKeyword():
             node_weight[word] = pr[index]
 
         self.node_weight = node_weight
-
-        print(node_weight)
-
-    def get_value(self, word):
-        print(word)
-        print(self.node_weight[word])
