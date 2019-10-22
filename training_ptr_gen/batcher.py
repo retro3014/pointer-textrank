@@ -33,13 +33,13 @@ class Example(object):
 
         twk = textrank.TextRankKeyword()
         twk.analyze(article, window_size=4, lower=False)
-        self.word_rank=twk.makeword_rank()
+        self.word_rank = twk.makeword_rank()
 
+        self.word_rank_data = []
+        for w in article_words:
+            self.word_rank_data.append(self.word_rank[w])
 
-        self.word_rank_data = [self.word_rank[w] for w in article_words]
-
-
-        # Process the abstract
+                 # Process the abstract
         abstract = ' '.join(abstract_sentences)  # string
         abstract_words = abstract.split()  # list of strings
         abs_ids = [vocab.word2id(w) for w in
