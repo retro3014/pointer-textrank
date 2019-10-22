@@ -32,7 +32,7 @@ class Example(object):
                           article_words]  # list of word ids; OOVs are represented by the id for UNK token
 
         twk = textrank.TextRankKeyword()
-        twk.analyze(article, window_size=4, lower=False)
+        twk.analyze(article_words, window_size=4, lower=False)
         self.word_rank = twk.makeword_rank()
 
         print(self.word_rank)

@@ -85,24 +85,20 @@ class TextRankKeyword():
         node_weight = OrderedDict(sorted(self.node_weight.items(), key=lambda t: t[1], reverse=True))
         return node_weight
 
-    def analyze(self, text,
+    def analyze(self, text_words,
                 window_size=4, lower=False, stopwords=list()):
         """Main function to analyze text"""
 
         # Set stop words
         self.set_stopwords(stopwords)
 
-        # Pare text by spaCy
-        doc = nlp(text)
 
-        # Filter sentences
-        sentences = self.sentence_segment(doc, lower)  # list of list of words
 
         # Build vocabulary
-        vocab = self.get_vocab(sentences)
+        vocab = self.get_vocab(text_words)
 
         # Get token_pairs from windows
-        token_pairs = self.get_token_pairs(window_size, sentences)
+        token_pairs = self.get_token_pairs(window_size, text_words)
 
         # Get normalized matrix
         g = self.get_matrix(vocab, token_pairs)
