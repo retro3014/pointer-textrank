@@ -46,17 +46,16 @@ class TextRankKeyword():
                     i += 1
         return vocab
 
-    def get_token_pairs(self, window_size, sentences):
+    def get_token_pairs(self, window_size, sentence):
         """Build token_pairs from windows in sentences"""
         token_pairs = list()
-        for sentence in sentences:
-            for i, word in enumerate(sentence):
-                for j in range(i + 1, i + window_size):
-                    if j >= len(sentence):
-                        break
-                    pair = (word, sentence[j])
-                    if pair not in token_pairs:
-                        token_pairs.append(pair)
+        for i, word in enumerate(sentence):
+            for j in range(i + 1, i + window_size):
+                if j >= len(sentence):
+                    break
+                pair = (word, sentence[j])
+                if pair not in token_pairs:
+                    token_pairs.append(pair)
         return token_pairs
 
     def symmetrize(self, a):
