@@ -36,6 +36,7 @@ def get_input_from_batch(batch, use_cuda):
         if extra_zeros is not None:
             extra_zeros = extra_zeros.cuda()
         c_t_1 = c_t_1.cuda()
+        wr_attention = wr_attention.cuda()
 
         if coverage is not None:
             coverage = coverage.cuda()
