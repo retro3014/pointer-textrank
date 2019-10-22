@@ -10,7 +10,7 @@ def get_input_from_batch(batch, use_cuda):
     enc_batch = Variable(torch.from_numpy(batch.enc_batch).long())
     enc_padding_mask = Variable(torch.from_numpy(batch.enc_padding_mask)).float()
     enc_lens = batch.enc_lens
-    wr_attention = Variable(torch.form_numpy(batch.wr_attention)).float()
+    wr_attention = Variable(torch.from_numpy(batch.wr_attention)).float()
 
     extra_zeros = None
     enc_batch_extend_vocab = None
