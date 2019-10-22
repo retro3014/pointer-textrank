@@ -33,7 +33,7 @@ class Example(object):
 
         twk = textrank.TextRankKeyword()
         twk.analyze(article, window_size=4, lower=False)
-        self.word_rank=twk.makewordrank()
+        self.word_rank=twk.makeword_rank()
 
         for w in article_words:
             print(w)
