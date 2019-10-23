@@ -60,6 +60,8 @@ class PositionalEncoding(nn.Module):
             pe[i, :, 0::2] = torch.sin(position * div_term)
             pe[i, :, 1::2] = torch.cos(position * div_term)
         self.register_buffer('pe', pe)
+        if use_cuda:
+            pe = pe.cuda()
 
     def forward(self):
         if self.dropout is not None:
