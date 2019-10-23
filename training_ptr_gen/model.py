@@ -46,7 +46,7 @@ def init_wt_unif(wt):
 
 
 class PositionalEncoding(nn.Module):
-    def __init__(self, d_model, dropout=None, max_batch = 8, max_len=500):
+    def __init__(self, d_model, dropout=None, max_batch = 32, max_len=500):
         super(PositionalEncoding, self).__init__()
         if dropout is not None:
             self.dropout = nn.Dropout(p=dropout)
