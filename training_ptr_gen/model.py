@@ -53,7 +53,7 @@ class PositionalEncoding(nn.Module):
         else:
             self.dropout = None
         pe = torch.zeros(max_batch, max_len, d_model)
-        for i in range(max_len-1):
+        for i in range(max_batch-1):
             position = torch.arange(0, max_len).float().unsqueeze(1)  # len x 1
             div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-(math.log(10000.0) / d_model)))  # D/2
             pe[i, :, 0::2] = torch.sin(position * div_term)
