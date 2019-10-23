@@ -46,13 +46,13 @@ def init_wt_unif(wt):
 
 
 class PositionalEncoding(nn.Module):
-    def __init__(self, d_model, dropout=None, max_len=5000):
+    def __init__(self, d_model, dropout=None, max_batch = 8, max_len=500):
         super(PositionalEncoding, self).__init__()
         if dropout is not None:
             self.dropout = nn.Dropout(p=dropout)
         else:
             self.dropout = None
-        pe = torch.zeros(max_len, max_len, d_model)
+        pe = torch.zeros(max_batch, max_len, d_model)
         for i in range(max_len):
             position = torch.arange(0, max_len).float().unsqueeze(1)  # len x 1
             div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-(math.log(10000.0) / d_model)))  # D/2
@@ -63,8 +63,7 @@ class PositionalEncoding(nn.Module):
             pe = pe.cuda()
     def forward(self, len, t):
         if self.dropout is not None:
-            return self.dropout(self.pe[:len, :t])
-        else:
+            return self.dropout(self.pe[:len, :t])        else:
             return self.pe[:len, :t]
 
 
@@ -100,8 +99,7 @@ class Encoder(nn.Module):
 
         # Positional encoding
         _, t, _ = list(encoder_outputs.size())
-        positional_feature = self.positional_encoding(seq_lens.size, t)  # B x t_k x 2*hidden_dim
-
+        positional_feature = self.positional_encoding(config.batch_size, t)  # B x t_k x 2*hidden_dim
 
         positional_feature = positional_feature.view(-1, 2 * config.hidden_dim)  # B * t_k x 2*hidden_dim
         positional_feature = self.W_p(positional_feature)
