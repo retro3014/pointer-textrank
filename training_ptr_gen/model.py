@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 import config
-from numpy import random
+from numpy import random, math
 
 use_cuda = config.use_gpu and torch.cuda.is_available()
 
@@ -52,19 +52,19 @@ class PositionalEncoding(nn.Module):
             self.dropout = nn.Dropout(p=dropout)
         else:
             self.dropout = None
-        pe = torch.zeros(self.len, d_model)  # len x D
-        position = torch.arange(0, self.len).float().unsqueeze(1)  # len x 1
-        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-(math.log(10000.0) / d_model)))  # D/2
-        pe[:, 0::2] = torch.sin(position * div_term)
-        pe[:, 1::2] = torch.cos(position * div_term)
-        pe = pe.unsqueeze(0)  # 1 x len x D
+        pe = torch.zeros(self.len.size, self.len.amax, d_model)
+        for i in range(self.len.size):
+            position = torch.arange(0, self.len).float().unsqueeze(1)  # len x 1
+            div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-(math.log(10000.0) / d_model)))  # D/2
+            pe[i, :, 0::2] = torch.sin(position * div_term)
+            pe[i, :, 1::2] = torch.cos(position * div_term)
         self.register_buffer('pe', pe)
 
     def forward(self):
         if self.droupout is not None:
-            return self.dropout(self.pe[:, :self.len])
+            return self.dropout(self.pe)
         else:
-            return self.pe[:, :self.len]
+            return self.pe
 
 
 class Encoder(nn.Module):
@@ -97,6 +97,10 @@ class Encoder(nn.Module):
         # Positional encoding
         self.positional_encoding = PositionalEncoding(2 * config.hidden_dim, seq_lens)
         positional_feature = self.positional_encoding()  # 1 x seq_lens x 2*hidden_dim
+
+        positional_feature, _ = pad_packed_sequence(positional_feature, batch_first=True)  # h dim = B x t_k x n
+        positional_feature = positional_feature.contiguous()
+
         positional_feature = positional_feature.view(-1, 2 * config.hidden_dim)  # B * t_k x 2*hidden_dim
         positional_feature = self.W_p(positional_feature)
 
