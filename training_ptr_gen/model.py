@@ -46,28 +46,26 @@ def init_wt_unif(wt):
 
 
 class PositionalEncoding(nn.Module):
-    def __init__(self, d_model, len, t, dropout=None):
+    def __init__(self, d_model, dropout=None, max_len=5000):
         super(PositionalEncoding, self).__init__()
-        self.len = len
         if dropout is not None:
             self.dropout = nn.Dropout(p=dropout)
         else:
             self.dropout = None
-        pe = torch.zeros(self.len.size, t, d_model)
-        for i in range(self.len.size):
-            position = torch.arange(0, self.len[i]).float().unsqueeze(1)  # len x 1
+        pe = torch.zeros(max_len, max_len, d_model)
+        for i in range(max_len):
+            position = torch.arange(0, max_len).float().unsqueeze(1)  # len x 1
             div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-(math.log(10000.0) / d_model)))  # D/2
             pe[i, :, 0::2] = torch.sin(position * div_term)
             pe[i, :, 1::2] = torch.cos(position * div_term)
         self.register_buffer('pe', pe)
         if use_cuda:
             pe = pe.cuda()
-
-    def forward(self):
+    def forward(self, len, t):
         if self.dropout is not None:
-            return self.dropout(self.pe)
+            return self.dropout(self.pe[:len, :t])
         else:
-            return self.pe
+            return self.pe[:len, :t]
 
 
 class Encoder(nn.Module):
@@ -81,6 +79,9 @@ class Encoder(nn.Module):
 
         self.W_h = nn.Linear(config.hidden_dim * 2, config.hidden_dim * 2, bias=False)
         self.W_p = nn.Linear(config.hidden_dim * 2, config.hidden_dim * 2, bias=False)
+
+
+        self.positional_encoding = PositionalEncoding(2 * config.hidden_dim)
 
     # seq_lens should be in descending order
     def forward(self, input, seq_lens):
@@ -99,8 +100,7 @@ class Encoder(nn.Module):
 
         # Positional encoding
         _, t, _ = list(encoder_outputs.size())
-        self.positional_encoding = PositionalEncoding(2 * config.hidden_dim, seq_lens, t)
-        positional_feature = self.positional_encoding()  # B x t_k x 2*hidden_dim
+        positional_feature = self.positional_encoding(seq_lens.size, t)  # B x t_k x 2*hidden_dim
 
 
         positional_feature = positional_feature.view(-1, 2 * config.hidden_dim)  # B * t_k x 2*hidden_dim
@@ -262,6 +262,7 @@ class Model(object):
         if use_cuda:
             encoder = encoder.cuda()
             decoder = decoder.cuda()
+
             reduce_state = reduce_state.cuda()
 
         self.encoder = encoder
