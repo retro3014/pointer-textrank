@@ -101,6 +101,7 @@ class Encoder(nn.Module):
         # Positional encoding
         _, t, _ = list(encoder_outputs.size())
         positional_feature = self.positional_encoding(config.batch_size, t)  # B x t_k x 2*hidden_dim
+        positional_feature = positional_feature.contiguous()
 
         positional_feature = positional_feature.view(-1, 2 * config.hidden_dim)  # B * t_k x 2*hidden_dim
         positional_feature = self.W_p(positional_feature)
