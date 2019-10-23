@@ -62,7 +62,7 @@ class PositionalEncoding(nn.Module):
         self.register_buffer('pe', pe)
 
     def forward(self):
-        if self.droupout is not None:
+        if self.dropout is not None:
             return self.dropout(self.pe)
         else:
             return self.pe
