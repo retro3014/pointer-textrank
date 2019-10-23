@@ -63,7 +63,8 @@ class PositionalEncoding(nn.Module):
             pe = pe.cuda()
     def forward(self, len, t):
         if self.dropout is not None:
-            return self.dropout(self.pe[:len, :t])        else:
+            return self.dropout(self.pe[:len, :t])
+        else:
             return self.pe[:len, :t]
 
 
