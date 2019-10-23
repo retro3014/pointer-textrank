@@ -94,13 +94,13 @@ class Encoder(nn.Module):
         encoder_feature = encoder_outputs.view(-1, 2 * config.hidden_dim)  # B * t_k x 2*hidden_dim
         encoder_feature = self.W_h(encoder_feature)
 
-        # # Positional encoding
-        # self.positional_encoding = PositionalEncoding(2 * config.hidden_dim, seq_lens)
-        # positional_feature = self.positional_encoding()  # 1 x seq_lens x 2*hidden_dim
-        # positional_feature = positional_feature.view(-1, 2 * config.hidden_dim)  # B * t_k x 2*hidden_dim
-        # positional_feature = self.W_p(positional_feature)
-        #
-        # encoder_feature = encoder_feature + positional_feature
+        # Positional encoding
+        self.positional_encoding = PositionalEncoding(2 * config.hidden_dim, seq_lens)
+        positional_feature = self.positional_encoding()  # 1 x seq_lens x 2*hidden_dim
+        positional_feature = positional_feature.view(-1, 2 * config.hidden_dim)  # B * t_k x 2*hidden_dim
+        positional_feature = self.W_p(positional_feature)
+
+        encoder_feature = encoder_feature + positional_feature
 
         return encoder_outputs, encoder_feature, hidden
 
