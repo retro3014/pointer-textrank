@@ -5,6 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 import config
+import numpy as np
 from numpy import random, math
 
 use_cuda = config.use_gpu and torch.cuda.is_available()
@@ -52,7 +53,7 @@ class PositionalEncoding(nn.Module):
             self.dropout = nn.Dropout(p=dropout)
         else:
             self.dropout = None
-        pe = torch.zeros(self.len.size, self.len.amax, d_model)
+        pe = torch.zeros(self.len.size, np.amax(self.len), d_model)
         for i in range(self.len.size):
             position = torch.arange(0, self.len).float().unsqueeze(1)  # len x 1
             div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-(math.log(10000.0) / d_model)))  # D/2
