@@ -78,7 +78,6 @@ class Encoder(nn.Module):
         init_lstm_wt(self.lstm)
 
         self.W_h = nn.Linear(config.hidden_dim * 2, config.hidden_dim * 2, bias=False)
-        self.W_p = nn.Linear(config.hidden_dim * 2, config.hidden_dim * 2, bias=False)
 
 
         self.positional_encoding = PositionalEncoding(2 * config.hidden_dim)
@@ -104,7 +103,6 @@ class Encoder(nn.Module):
         positional_feature = positional_feature.contiguous()
 
         positional_feature = positional_feature.view(-1, 2 * config.hidden_dim)  # B * t_k x 2*hidden_dim
-        positional_feature = self.W_p(positional_feature)
 
         encoder_feature = encoder_feature + positional_feature
 
